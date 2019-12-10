@@ -1,4 +1,7 @@
 import random
+#abstract import
+from abc import ABCMeta,abstractmethod
+
 #database connection
 from pymongo import MongoClient
 
@@ -14,6 +17,28 @@ from pprint import pprint
 mydb = client['Bank_customer_details']
 #create table
 mycollection = mydb['Account_Details']
+
+#abstract class
+class Account(metaclass =ABCMeta):
+    @abstractmethod
+    def create_account(self):
+        return 0
+    
+    @abstractmethod
+    def authenticate(self):
+        return 0
+    
+    @abstractmethod
+    def withdraw(self):
+        return 0 
+    
+    @abstractmethod
+    def deposit(self):
+        return 0
+
+    @abstractmethod
+    def display_balance(self):
+        return 0 
 
 
 class BankProcess:
@@ -69,7 +94,8 @@ class BankProcess:
                     {'{}.Initial_deposit'.format(account_number):amt}
                 }
             )
-        print('Withdrawal was successful')
+            print('Withdrawal was successful')
+        
         self.display_balance(account_number)
 
     def deposit(self,deposit_amount,account_number):
@@ -103,17 +129,8 @@ class BankProcess:
         dic_output = field[0]
         val = (dic_output[str(account_number)]['Initial_deposit'])
         print('Available balance :',val)
-
-
-        
+      
 bp = BankProcess()
-# bp.create_account('Goutham','DL',10000)
-# bp.create_account('vicky','passport',500)
-# bp.create_account('Mouric','aadhar',1000)
-# bp.create_account('steve','DL',3000)
-# bp.withdraw(11,11639021814) 
-# bp.deposit(30,11639021814)
-
 while True:
     print('Please enter your choice')
     print('1 - Create new account')
